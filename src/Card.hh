@@ -18,6 +18,7 @@ namespace TG {
 	};
 	
 	std::ostream& operator<<(std::ostream& os, Figure f);
+	std::ostream& operator<<(std::ostream& os, Pattern f);
 	
 	std::ostream& operator<<(std::ostream& os, Card c);
 	std::ostream& operator<<(std::ostream& os, Card* c);

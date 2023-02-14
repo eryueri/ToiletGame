@@ -23,16 +23,8 @@ namespace TG {
         std::cerr << "CardPool inited!\n";
         shuffleCards();
         std::cerr << "Cards Shuffled!\n";
-        int i = 0;
-        for (auto c : _cardPool) {
-            std::cout << c << " ";
-            ++i;
-            if (i % 13 == 0) {
-                std::cout << "\n";
-            }
-        }
-        std::cout << std::endl;
         dispatchCards();
+        std::cerr << "Cards Dispatched to players!\n";
     }
     
     Application::~Application()
@@ -48,36 +40,36 @@ namespace TG {
             if (!_currentPlayer) {
                 Card* temp = _players[0].putCard(_cardsOnDesk);
                 // if collectable, collect the cards
-                // exam players' cards, if empty the player lose
-                std::cout << temp << " ";
+                std::cerr << temp << " ";
                 if (cardPairs(temp)) {
-                    std::cout << " player 0 collects ";
-                    // std::cout << " player 1 "<< _players[1].number() << " remain";
+                    std::cerr << " player 0 collects ";
+                    // std::cerr << " player 1 "<< _players[1].number() << " remain";
                     auto pos = getSliptPos(temp);
-                    eraseCardSignal(pos, _cardsOnDesk.end());
+                    clearCardPairSignal(pos, _cardsOnDesk.end());
                     _players[0].getCards(pos, _cardsOnDesk.end());
                     _cardsOnDesk.eraseCards(pos, _cardsOnDesk.end());
                     _currentPlayer = !_currentPlayer;
                 }
+                // exam players' cards, if empty the player lose
                 if (_players[0].empty()) {
                     _terminate = true;
-                    std::cout << "\nplayer 0 loses!\n";
+                    std::cerr << "\nplayer 0 loses!\n";
                 }
             } else {
                 Card* temp = _players[1].putCard(_cardsOnDesk);
-                std::cout << temp << " ";
+                std::cerr << temp << " ";
                 if (cardPairs(temp)) {
-                    std::cout << " player 1 collects ";
-                    // std::cout << " player 0 "<< _players[0].number() << " remain";
+                    std::cerr << " player 1 collects ";
+                    // std::cerr << " player 0 "<< _players[0].number() << " remain";
                     auto pos = getSliptPos(temp);
-                    eraseCardSignal(pos, _cardsOnDesk.end());
+                    clearCardPairSignal(pos, _cardsOnDesk.end());
                     _players[1].getCards(pos, _cardsOnDesk.end());
                     _cardsOnDesk.eraseCards(pos, _cardsOnDesk.end());
                     _currentPlayer = !_currentPlayer;
                 }
                 if (_players[1].empty()) {
                     _terminate = true;
-                    std::cout << "\nplayer 1 loses!\n";
+                    std::cerr << "\nplayer 1 loses!\n";
                     // _player[1] loses
                 }
             }
@@ -109,6 +101,19 @@ namespace TG {
         _cardPool[i] = new Card{Figure::JOKER, Pattern::RED_JOKER};
         _cardPool[i+1] = new Card{Figure::JOKER, Pattern::BLACK_JOKER};
     }
+
+    void Application::logCardPool()
+    {
+        int i = 0;
+        for (auto c : _cardPool) {
+            std::cerr << c << " ";
+            ++i;
+            if (i % 18 == 0) {
+                std::cerr << "\n";
+            }
+        }
+        std::cerr << std::endl;
+    }
     
     // it makes sence for me to shuffle cards in the cardPool
     // because in this game you're not allowed to shuffle cards
@@ -138,7 +143,7 @@ namespace TG {
         return false;
     }
     
-    void Application::eraseCardSignal(std::vector<Card*>::iterator pos, std::vector<Card*>::iterator end)
+    void Application::clearCardPairSignal(std::vector<Card*>::iterator pos, std::vector<Card*>::iterator end)
     {
         for (auto it = pos; it != end; ++it) {
             size_t i = static_cast<std::underlying_type<Figure>::type>((*it)->figure);
@@ -148,10 +153,10 @@ namespace TG {
     
     std::vector<Card*>::iterator Application::getSliptPos(Card* c)
     {
-        std::cout << std::endl;
+        std::cerr << std::endl;
         for (auto it = _cardsOnDesk.begin(); it != _cardsOnDesk.end(); ++it) {
             if ((*it)->figure != c->figure) {
-                std::cout << (*it) << " ";
+                std::cerr << (*it) << " ";
             } else {
                 return it;
             }

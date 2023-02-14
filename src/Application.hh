@@ -10,11 +10,12 @@ namespace TG {
 		void run();
 	private:
 		void initCardPool();
+    void logCardPool();
 		void shuffleCards();
 		void dispatchCards();
 	private:
 		bool cardPairs(Card* c);
-		void eraseCardSignal(std::vector<Card*>::iterator pos, std::vector<Card*>::iterator end);
+		void clearCardPairSignal(std::vector<Card*>::iterator pos, std::vector<Card*>::iterator end);
 		std::vector<Card*>::iterator getSliptPos(Card* c);
 	private:
 		Player _players[2];

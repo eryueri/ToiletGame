@@ -55,6 +55,37 @@ namespace TG {
         }
         return os;
     }
+
+    std::ostream& operator << (std::ostream& os, Pattern p)
+    {
+        switch(p) {
+            case Pattern::NONE: {
+
+            } break;
+            case Pattern::SPADE: {
+
+            } break;
+            case Pattern::HEART: {
+
+            } break;
+            case Pattern::DIAMOND: {
+
+            } break;
+            case Pattern::CLUB: {
+
+            } break;
+            case Pattern::RED_JOKER: {
+
+            } break;
+            case Pattern::BLACK_JOKER: {
+
+            } break;
+            default: {
+                throw std::runtime_error("it doesnt make sense that the program reach here");
+            } break;
+        }
+        return os;
+    }
     
     std::ostream& operator << (std::ostream& os, Card c)
     {
